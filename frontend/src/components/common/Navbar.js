@@ -135,7 +135,7 @@ const Navbar = () => {
                       fontFamily: 'Montserrat',
                       fontSize: '14px',
                       fontWeight: active ? 700 : 600,
-                      color: active ? '#2563eb' : '#334155',
+                      color: active ? '#1b2a4a' : '#334155',
                       background: active
                         ? 'rgba(37,99,235,0.08)'
                         : 'transparent',
@@ -143,7 +143,7 @@ const Navbar = () => {
                     }}
                     onMouseEnter={(e) => {
                       if (!active) {
-                        e.currentTarget.style.color = '#2563eb';
+                        e.currentTarget.style.color = '#1b2a4a';
                         e.currentTarget.style.background =
                           'rgba(37,99,235,0.05)';
                       }
@@ -176,7 +176,7 @@ const Navbar = () => {
               className="desktop-nav"
               onClick={() => navigate('/properties')}
               style={{
-                background: '#2563eb',
+                background: '#1b2a4a',
                 color: 'white',
                 border: 'none',
                 padding: '12px 20px',
@@ -193,7 +193,7 @@ const Navbar = () => {
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = '#2563eb';
+                e.currentTarget.style.background = '#1b2a4a';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -247,7 +247,7 @@ const Navbar = () => {
                     fontFamily: 'Montserrat',
                     fontSize: '14px',
                     fontWeight: 600,
-                    color: active ? '#2563eb' : '#334155',
+                    color: active ? '#1b2a4a' : '#334155',
                     background: active
                       ? 'rgba(37,99,235,0.08)'
                       : 'transparent'
@@ -264,7 +264,7 @@ const Navbar = () => {
               style={{
                 width: '100%',
                 marginTop: '10px',
-                background: '#2563eb',
+                background: '#1b2a4a',
                 color: 'white',
                 border: 'none',
                 padding: '14px',
