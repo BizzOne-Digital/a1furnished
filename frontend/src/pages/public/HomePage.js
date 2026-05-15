@@ -241,8 +241,9 @@ const HomePage = () => {
           ) : (
             <>
               <div className="properties-grid">
-                {featuredProperties.map(p => <PropertyCard key={p._id} property={p} />)}
-              </div>
+{(featuredProperties || []).map(p => (
+  <PropertyCard key={p._id} property={p} />
+))}              </div>
               <div style={{ textAlign: 'center', marginTop: '48px' }}>
                 <button onClick={() => navigate('/properties')} className="btn btn-secondary btn-lg">
                   View All Properties &nbsp;<IcoArrow />
