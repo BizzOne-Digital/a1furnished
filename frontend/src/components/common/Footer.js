@@ -47,9 +47,7 @@ const Footer = () => {
               {[
                 { to: '/', label: 'Home' },
                 { to: '/properties', label: 'All Properties' },
-                { to: '/properties?city=Toronto', label: 'Toronto Properties' },
-                { to: '/properties?city=Mississauga', label: 'Mississauga Properties' },
-                { to: '/properties?city=Brampton', label: 'Brampton Properties' },
+              
                 { to: '/about', label: 'About Us' },
                 { to: '/contact', label: 'Contact' }
               ].map(link => (

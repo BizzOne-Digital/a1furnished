@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, useAuth } from './context/AuthContext';
 
+// 👉 ADD THIS
+import ScrollToTop from './components/ScrollToTop';
+
 // Public Pages
 import HomePage from './pages/public/HomePage';
 import PropertiesPage from './pages/public/PropertiesPage';
@@ -41,6 +44,10 @@ function App() {
   return (
     <AuthProvider>
       <Router>
+
+        {/* 👉 ADD THIS HERE */}
+        <ScrollToTop />
+
         <Toaster
           position="top-right"
           toastOptions={{
@@ -48,6 +55,7 @@ function App() {
             style: { background: '#1a2744', color: '#fff', borderRadius: '10px' }
           }}
         />
+
         <Routes>
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
