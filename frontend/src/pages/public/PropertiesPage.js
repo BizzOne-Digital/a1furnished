@@ -27,9 +27,8 @@ const PropertiesPage = () => {
     setLoading(true);
     try {
       const res = await propertyAPI.getAll({ ...filters, ...params, page: currentPage, limit: 9 });
-      setProperties(res.data.properties);
-      setTotal(res.data.total);
-      setPages(res.data.pages);
+setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0);
+      setPages(res?.data?.pages || 1);
     } catch (err) {
       console.error(err);
     } finally {
@@ -177,8 +176,7 @@ const PropertiesPage = () => {
             <div className="spinner"></div>
             <p>Loading properties...</p>
           </div>
-        ) : properties.length === 0 ? (
-          <div style={{ textAlign: 'center', padding: '80px 20px' }}>
+) : (properties || []).length === 0 ? (          <div style={{ textAlign: 'center', padding: '80px 20px' }}>
             <div style={{ fontSize: '60px', marginBottom: '16px' }}>🏠</div>
             <h3 style={{ fontFamily: 'Montserrat', marginBottom: '8px' }}>No properties found</h3>
             <p style={{ color: 'var(--gray)' }}>Try adjusting your filters</p>
@@ -192,8 +190,7 @@ const PropertiesPage = () => {
               Showing <strong>{properties.length}</strong> of <strong>{total}</strong> properties
             </p>
             <div className="properties-grid">
-              {properties.map(property => (
-                <PropertyCard key={property._id} property={property} />
+{(properties || []).map(property => (                <PropertyCard key={property._id} property={property} />
               ))}
             </div>
 
