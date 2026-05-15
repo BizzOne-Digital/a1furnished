@@ -23,6 +23,10 @@ app.use('/api/bookings', require('./routes/bookingRoutes'));
 app.use('/api/inquiries', require('./routes/inquiryRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
+app.get("/", (req, res) => {
+  res.send("A1 Furnished API Running");
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'A1 Furnished Homes API is running', timestamp: new Date() });
