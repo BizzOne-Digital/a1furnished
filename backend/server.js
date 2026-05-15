@@ -9,7 +9,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL,
+  origin: "https://a1furnished.vercel.app",
   credentials: true
 }));
 
