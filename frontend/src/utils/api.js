@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || '/api',
+baseURL: 'https://a1furnished-api.vercel.app/api',
   headers: { 'Content-Type': 'application/json' }
 });
 
@@ -14,7 +14,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401 globally
+// Handle 401 globallyhhh
 API.interceptors.response.use(
   (response) => response,
   (error) => {
