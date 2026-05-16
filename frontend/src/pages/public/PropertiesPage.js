@@ -23,7 +23,6 @@ const PropertiesPage = () => {
     sort: searchParams.get('sort') || ''
   });
 
-  // Sync filters when URL params change (e.g. Footer links)
   useEffect(() => {
     setFilters({
       search: searchParams.get('search') || '',
@@ -35,6 +34,7 @@ const PropertiesPage = () => {
       sort: searchParams.get('sort') || ''
     });
     setCurrentPage(1);
+    window.scrollTo(0, 0);
   }, [searchParams.toString()]);
 
   const fetchProperties = async () => {
@@ -59,7 +59,6 @@ const PropertiesPage = () => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     setCurrentPage(1);
-    // Update URL
     const params = {};
     Object.entries(newFilters).forEach(([k, v]) => { if (v) params[k] = v; });
     setSearchParams(params);
@@ -70,6 +69,7 @@ const PropertiesPage = () => {
     setFilters(empty);
     setCurrentPage(1);
     setSearchParams({});
+    window.scrollTo(0, 0);
   };
 
   const hasActiveFilters = Object.values(filters).some(v => v !== '');
