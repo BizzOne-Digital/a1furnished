@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, SlidersHorizontal, X, Grid, List } from 'lucide-react';
+import { Search, SlidersHorizontal, X } from 'lucide-react';
 import PropertyCard from '../../components/property/PropertyCard';
 import { propertyAPI } from '../../utils/api';
 
@@ -23,11 +23,26 @@ const PropertiesPage = () => {
     sort: searchParams.get('sort') || ''
   });
 
-  const fetchProperties = async (params = {}) => {
+  // Sync filters when URL params change (e.g. Footer links)
+  useEffect(() => {
+    setFilters({
+      search: searchParams.get('search') || '',
+      city: searchParams.get('city') || '',
+      bedrooms: searchParams.get('bedrooms') || '',
+      propertyType: searchParams.get('propertyType') || '',
+      minPrice: searchParams.get('minPrice') || '',
+      maxPrice: searchParams.get('maxPrice') || '',
+      sort: searchParams.get('sort') || ''
+    });
+    setCurrentPage(1);
+  }, [searchParams.toString()]);
+
+  const fetchProperties = async () => {
     setLoading(true);
     try {
-      const res = await propertyAPI.getAll({ ...filters, ...params, page: currentPage, limit: 9 });
-setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0);
+      const res = await propertyAPI.getAll({ ...filters, page: currentPage, limit: 9 });
+      setProperties(res?.data?.properties || []);
+      setTotal(res?.data?.total || 0);
       setPages(res?.data?.pages || 1);
     } catch (err) {
       console.error(err);
@@ -38,20 +53,23 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
 
   useEffect(() => {
     fetchProperties();
-    // Update URL params
-    const params = {};
-    Object.entries(filters).forEach(([k, v]) => { if (v) params[k] = v; });
-    setSearchParams(params);
   }, [filters, currentPage]);
 
   const handleFilterChange = (key, value) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
     setCurrentPage(1);
+    // Update URL
+    const params = {};
+    Object.entries(newFilters).forEach(([k, v]) => { if (v) params[k] = v; });
+    setSearchParams(params);
   };
 
   const clearFilters = () => {
-    setFilters({ search: '', city: '', bedrooms: '', propertyType: '', minPrice: '', maxPrice: '', sort: '' });
+    const empty = { search: '', city: '', bedrooms: '', propertyType: '', minPrice: '', maxPrice: '', sort: '' };
+    setFilters(empty);
     setCurrentPage(1);
+    setSearchParams({});
   };
 
   const hasActiveFilters = Object.values(filters).some(v => v !== '');
@@ -61,6 +79,7 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
 
   return (
     <div style={{ background: 'var(--off-white)', minHeight: '100vh' }}>
+
       {/* Page Header */}
       <div style={{ background: 'var(--navy)', padding: '50px 0 30px' }}>
         <div className="container">
@@ -74,13 +93,14 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
       </div>
 
       <div className="container" style={{ padding: '32px 24px' }}>
+
         {/* Search & Filter Bar */}
         <div style={{
           background: 'white', borderRadius: 'var(--radius)', padding: '20px',
           marginBottom: '28px', boxShadow: 'var(--shadow)',
           display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center'
         }}>
-          {/* Search input */}
+          {/* Search */}
           <div style={{ flex: 1, minWidth: '200px', position: 'relative' }}>
             <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)' }} />
             <input
@@ -129,7 +149,7 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
             <option value="popular">Most Popular</option>
           </select>
 
-          {/* More Filters Toggle */}
+          {/* More Filters */}
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="btn btn-secondary btn-sm"
@@ -176,7 +196,8 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
             <div className="spinner"></div>
             <p>Loading properties...</p>
           </div>
-) : (properties || []).length === 0 ? (          <div style={{ textAlign: 'center', padding: '80px 20px' }}>
+        ) : (properties || []).length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '80px 20px' }}>
             <div style={{ fontSize: '60px', marginBottom: '16px' }}>🏠</div>
             <h3 style={{ fontFamily: 'Montserrat', marginBottom: '8px' }}>No properties found</h3>
             <p style={{ color: 'var(--gray)' }}>Try adjusting your filters</p>
@@ -190,7 +211,8 @@ setProperties(res?.data?.properties || []);      setTotal(res?.data?.total || 0)
               Showing <strong>{properties.length}</strong> of <strong>{total}</strong> properties
             </p>
             <div className="properties-grid">
-{(properties || []).map(property => (                <PropertyCard key={property._id} property={property} />
+              {(properties || []).map(property => (
+                <PropertyCard key={property._id} property={property} />
               ))}
             </div>
 
