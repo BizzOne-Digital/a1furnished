@@ -67,26 +67,33 @@ const Footer = () => {
           </div>
 
           {/* Property Types */}
-          <div>
-            <h4 style={{ color: 'white', fontFamily: 'Montserrat', fontSize: '15px', marginBottom: '20px', letterSpacing: '1px', textTransform: 'uppercase' }}>
-              Property Types
-            </h4>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              {['Apartments', 'Suites', 'Houses', 'Condos', 'Townhouses', 'Studios'].map(type => (
-                <li key={type}>
-                  <Link to={`/properties?propertyType=${type.slice(0,-1)}`} style={{
-                    fontSize: '14px', opacity: 0.75,
-                    display: 'flex', alignItems: 'center', gap: '6px'
-                  }}
-                    onMouseEnter={e => { e.target.style.opacity = 1; e.target.style.color = 'var(--red)'; }}
-                    onMouseLeave={e => { e.target.style.opacity = 0.75; e.target.style.color = 'inherit'; }}
-                  >
-                    → {type}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+<div>
+  <h4 style={{ color: 'white', fontFamily: 'Montserrat', fontSize: '15px', marginBottom: '20px', letterSpacing: '1px', textTransform: 'uppercase' }}>
+    Property Types
+  </h4>
+  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    {[
+      { label: 'Apartments', value: 'Apartment' },
+      { label: 'Suites', value: 'Suite' },
+      { label: 'Houses', value: 'House' },
+      { label: 'Condos', value: 'Condo' },
+      { label: 'Townhouses', value: 'Townhouse' },
+      { label: 'Studios', value: 'Studio' },
+    ].map(type => (
+      <li key={type.value}>
+        <Link to={`/properties?propertyType=${type.value}`} style={{
+          fontSize: '14px', opacity: 0.75,
+          display: 'flex', alignItems: 'center', gap: '6px'
+        }}
+          onMouseEnter={e => { e.target.style.opacity = 1; e.target.style.color = 'var(--red)'; }}
+          onMouseLeave={e => { e.target.style.opacity = 0.75; e.target.style.color = 'inherit'; }}
+        >
+          → {type.label}
+        </Link>
+      </li>
+    ))}
+  </ul>
+</div>
 
           {/* Contact */}
           <div>

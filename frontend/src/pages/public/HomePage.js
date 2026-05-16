@@ -89,119 +89,120 @@ const HomePage = () => {
   return (
     <div>
       {/* ====================================================
-          HERO — Full background image
-      ==================================================== */}
-      <section style={{ minHeight: '92vh', position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+    HERO — Full background image
+==================================================== */}
+<section style={{ minHeight: '92vh', position: 'relative', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
 
-        {/* Background image — full cover */}
+  {/* Background image — full cover */}
+  <div style={{
+    position: 'absolute', inset: 0,
+    backgroundImage: 'url(https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1800&q=85)',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center 30%',
+  }} />
+
+  {/* Overlay */}
+  <div style={{
+    position: 'absolute', inset: 0,
+    background: 'linear-gradient(180deg, rgba(17,26,46,0.92) 0%, rgba(17,26,46,0.80) 60%, rgba(17,26,46,0.70) 100%)'
+  }} />
+
+  {/* Top accent line */}
+  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--red)', zIndex: 5 }} />
+
+  <div className="container" style={{ position: 'relative', zIndex: 3, padding: '110px 24px 90px', width: '100%' }}>
+    <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center' }}>
+
+      {/* Badge */}
+      <div style={{
+        display: 'inline-flex', alignItems: 'center', gap: '8px',
+        background: 'rgba(200,16,46,0.15)', border: '1px solid rgba(200,16,46,0.45)',
+        padding: '7px 18px', borderRadius: '999px', marginBottom: '30px'
+      }}>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--red)"><path d="M17 8C8 10 5.9 16.17 3.82 19.82a2.83 2.83 0 0 0 3.39 4.06c4.24-2.44 9-6 10.77-12.88"/></svg>
+        <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12px', fontFamily: 'Montserrat', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>
+          Premium Furnished Homes — Canada
+        </span>
+      </div>
+
+      {/* Headline */}
+      <h1 style={{ fontSize: 'clamp(38px, 6vw, 68px)', color: 'white', fontFamily: 'Montserrat', fontWeight: 900, lineHeight: 1.08, marginBottom: '22px', letterSpacing: '-0.5px' }}>
+        Your Perfect<br />
+        <span style={{ color: 'var(--red)' }}>Furnished Home</span><br />
+        <span style={{ fontWeight: 400, fontSize: '0.74em', color: 'rgba(255,255,255,0.82)' }}>Across the GTA</span>
+      </h1>
+
+      <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.75)', margin: '0 auto 36px', lineHeight: 1.78, maxWidth: '500px' }}>
+        Move-in ready furnished apartments, suites, and houses with all utilities included.
+        No long-term lease. No hassle. Just home.
+      </p>
+
+      {/* Search bar */}
+      <form onSubmit={handleSearch}>
         <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'url(https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1800&q=85)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 30%',
-        }} />
-
-        {/* Overlay — stronger on left for text readability */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(100deg, rgba(17,26,46,0.96) 0%, rgba(17,26,46,0.88) 42%, rgba(17,26,46,0.50) 75%, rgba(17,26,46,0.22) 100%)'
-        }} />
-
-        {/* Top accent line */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--red)', zIndex: 5 }} />
-
-        <div className="container" style={{ position: 'relative', zIndex: 3, padding: '110px 24px 90px' }}>
-          <div style={{ maxWidth: '660px' }}>
-
-            {/* Badge */}
-            <div style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              background: 'rgba(200,16,46,0.15)', border: '1px solid rgba(200,16,46,0.45)',
-              padding: '7px 18px', borderRadius: '999px', marginBottom: '30px'
-            }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--red)"><path d="M17 8C8 10 5.9 16.17 3.82 19.82a2.83 2.83 0 0 0 3.39 4.06c4.24-2.44 9-6 10.77-12.88"/></svg>
-              <span style={{ color: 'rgba(255,255,255,0.92)', fontSize: '12px', fontFamily: 'Montserrat', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>
-                Premium Furnished Homes — Canada
-              </span>
+          background: 'white', borderRadius: '14px', padding: '7px',
+          display: 'flex', flexWrap: 'wrap', gap: '7px',
+          boxShadow: '0 28px 70px rgba(0,0,0,0.45)',
+          margin: '0 auto 22px', maxWidth: '570px'
+        }}>
+          <div style={{ flex: '1', minWidth: '155px', position: 'relative' }}>
+            <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)', pointerEvents: 'none' }}>
+              <IcoPin sz={15} />
             </div>
-
-            {/* Headline */}
-            <h1 style={{ fontSize: 'clamp(38px, 6vw, 68px)', color: 'white', fontFamily: 'Montserrat', fontWeight: 900, lineHeight: 1.08, marginBottom: '22px', letterSpacing: '-0.5px' }}>
-              Your Perfect<br />
-              <span style={{ color: 'var(--red)' }}>Furnished Home</span><br />
-              <span style={{ fontWeight: 400, fontSize: '0.74em', color: 'rgba(255,255,255,0.82)' }}>Across the GTA</span>
-            </h1>
-
-            <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.75)', marginBottom: '36px', lineHeight: 1.78, maxWidth: '500px' }}>
-              Move-in ready furnished apartments, suites, and houses with all utilities included.
-              No long-term lease. No hassle. Just home.
-            </p>
-
-            {/* Search bar */}
-            <form onSubmit={handleSearch}>
-              <div style={{
-                background: 'white', borderRadius: '14px', padding: '7px',
-                display: 'flex', flexWrap: 'wrap', gap: '7px',
-                boxShadow: '0 28px 70px rgba(0,0,0,0.45)',
-                marginBottom: '22px', maxWidth: '570px'
-              }}>
-                <div style={{ flex: '1', minWidth: '155px', position: 'relative' }}>
-                  <div style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--gray)', pointerEvents: 'none' }}>
-                    <IcoPin sz={15} />
-                  </div>
-                  <select value={searchForm.city} onChange={e => setSearchForm(p => ({ ...p, city: e.target.value }))}
-                    style={{ width: '100%', padding: '13px 10px 13px 34px', border: 'none', background: 'var(--off-white)', borderRadius: '8px', fontSize: '14px', fontFamily: 'Lato', color: 'var(--text)', appearance: 'none', cursor: 'pointer' }}>
-                    <option value="">Select City</option>
-                    {cities.map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-                <div style={{ flex: '1', minWidth: '130px' }}>
-                  <select value={searchForm.bedrooms} onChange={e => setSearchForm(p => ({ ...p, bedrooms: e.target.value }))}
-                    style={{ width: '100%', padding: '13px 10px', border: 'none', background: 'var(--off-white)', borderRadius: '8px', fontSize: '14px', fontFamily: 'Lato', color: 'var(--text)', appearance: 'none', cursor: 'pointer' }}>
-                    <option value="">Any Bedrooms</option>
-                    {[0,1,2,3,4].map(n => <option key={n} value={n}>{n === 0 ? 'Studio' : `${n} Bed${n > 1 ? 's' : ''}`}</option>)}
-                  </select>
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ padding: '13px 26px', borderRadius: '8px', gap: '8px' }}>
-                  <IcoSearch /> Search
-                </button>
-              </div>
-            </form>
-
-            {/* Trust badges */}
-            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              {['All Utilities Included', 'No Long-term Lease', 'Instant Booking'].map(item => (
-                <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '7px', color: 'rgba(255,255,255,0.85)', fontSize: '13px', fontFamily: 'Montserrat', fontWeight: 600 }}>
-                  <span style={{ color: '#4ade80', display: 'flex' }}><IcoCheck /></span>
-                  {item}
-                </div>
-              ))}
-            </div>
+            <select value={searchForm.city} onChange={e => setSearchForm(p => ({ ...p, city: e.target.value }))}
+              style={{ width: '100%', padding: '13px 10px 13px 34px', border: 'none', background: 'var(--off-white)', borderRadius: '8px', fontSize: '14px', fontFamily: 'Lato', color: 'var(--text)', appearance: 'none', cursor: 'pointer' }}>
+              <option value="">Select City</option>
+              {cities.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
           </div>
-        </div>
-
-        {/* Floating stats card — desktop only */}
-        <div style={{ position: 'absolute', right: '48px', bottom: '70px', background: 'white', borderRadius: '16px', padding: '20px 24px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', display: 'none', zIndex: 4 }} className="hero-card">
-          <div style={{ fontFamily: 'Montserrat', fontWeight: 900, fontSize: '28px', color: 'var(--navy)', lineHeight: 1 }}>50<span style={{ color: 'var(--red)' }}>+</span></div>
-          <div style={{ color: 'var(--gray)', fontSize: '13px', marginBottom: '12px' }}>Properties Available</div>
-          <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
-            {[1,2,3,4,5].map(s => <IcoStar key={s} />)}
-            <span style={{ color: 'var(--gray)', fontSize: '12px', marginLeft: '4px' }}>4.9 avg</span>
+          <div style={{ flex: '1', minWidth: '130px' }}>
+            <select value={searchForm.bedrooms} onChange={e => setSearchForm(p => ({ ...p, bedrooms: e.target.value }))}
+              style={{ width: '100%', padding: '13px 10px', border: 'none', background: 'var(--off-white)', borderRadius: '8px', fontSize: '14px', fontFamily: 'Lato', color: 'var(--text)', appearance: 'none', cursor: 'pointer' }}>
+              <option value="">Any Bedrooms</option>
+              {[0,1,2,3,4].map(n => <option key={n} value={n}>{n === 0 ? 'Studio' : `${n} Bed${n > 1 ? 's' : ''}`}</option>)}
+            </select>
           </div>
+          <button type="submit" className="btn btn-primary" style={{ padding: '13px 26px', borderRadius: '8px', gap: '8px' }}>
+            <IcoSearch /> Search
+          </button>
         </div>
+      </form>
 
-        {/* Scroll hint */}
-        <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.35)', animation: 'heroBounce 2s infinite', zIndex: 3, cursor: 'pointer' }}
-          onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })}>
-          <IcoDown />
-        </div>
+      {/* Trust badges */}
+      <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {['All Utilities Included', 'No Long-term Lease', 'Instant Booking'].map(item => (
+          <div key={item} style={{ display: 'flex', alignItems: 'center', gap: '7px', color: 'rgba(255,255,255,0.85)', fontSize: '13px', fontFamily: 'Montserrat', fontWeight: 600 }}>
+            <span style={{ color: '#4ade80', display: 'flex' }}><IcoCheck /></span>
+            {item}
+          </div>
+        ))}
+      </div>
 
-        <style>{`
-          @keyframes heroBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
-          @media(min-width:1100px){.hero-card{display:block !important}}
-          @media(max-width:640px){.stats-bar-grid{grid-template-columns:1fr 1fr !important}}
-        `}</style>
-      </section>
+    </div>
+  </div>
+
+  {/* Floating stats card — desktop only */}
+  <div style={{ position: 'absolute', right: '48px', bottom: '70px', background: 'white', borderRadius: '16px', padding: '20px 24px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', display: 'none', zIndex: 4 }} className="hero-card">
+    <div style={{ fontFamily: 'Montserrat', fontWeight: 900, fontSize: '28px', color: 'var(--navy)', lineHeight: 1 }}>50<span style={{ color: 'var(--red)' }}>+</span></div>
+    <div style={{ color: 'var(--gray)', fontSize: '13px', marginBottom: '12px' }}>Properties Available</div>
+    <div style={{ display: 'flex', gap: '3px', alignItems: 'center' }}>
+      {[1,2,3,4,5].map(s => <IcoStar key={s} />)}
+      <span style={{ color: 'var(--gray)', fontSize: '12px', marginLeft: '4px' }}>4.9 avg</span>
+    </div>
+  </div>
+
+  {/* Scroll hint */}
+  <div style={{ position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.35)', animation: 'heroBounce 2s infinite', zIndex: 3, cursor: 'pointer' }}
+    onClick={() => window.scrollBy({ top: window.innerHeight * 0.85, behavior: 'smooth' })}>
+    <IcoDown />
+  </div>
+
+  <style>{`
+    @keyframes heroBounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+    @media(min-width:1100px){.hero-card{display:block !important}}
+    @media(max-width:640px){.stats-bar-grid{grid-template-columns:1fr 1fr !important}}
+  `}</style>
+</section>
 
       {/* ====================================================
           STATS BAR — red strip
