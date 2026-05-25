@@ -54,12 +54,10 @@ const HomePage = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const params = new URLSearchParams();
-    Object.entries(searchForm).forEach(([k, v]) => { if (v) params.set(k, v); });
-    navigate(`/properties?${params.toString()}`);
-  };
+ const handleSearch = (e) => {
+  e.preventDefault();
+  window.location.href = 'https://a1suites.ca/';
+};
 
   const cities = ['Toronto', 'Mississauga', 'Brampton', 'Vaughan', 'Markham', 'Oakville'];
 

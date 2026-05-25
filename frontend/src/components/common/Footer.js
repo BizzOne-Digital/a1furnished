@@ -107,13 +107,13 @@ const Footer = () => {
                   Greater Toronto Area<br />Ontario, Canada
                 </span>
               </div>
-              <a href="tel:+16477234567" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
+              <a href="tel:+4165661102" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Phone size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                +1 (647) 723-4567
+                +1 4165661102
               </a>
-              <a href="mailto:info@a1suites.ca" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
+              <a href="mailto:nadeemrealty@gmail.com." style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Mail size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                info@a1suites.ca
+                nadeemrealty@gmail.com.
               </a>
             </div>
           </div>

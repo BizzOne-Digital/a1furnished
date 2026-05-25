@@ -48,8 +48,8 @@ const ContactPage = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '40px' }}>
               {[
-                { icon: <Phone size={22} />, title: 'Phone', value: '+1 (647) 723-4567', link: 'tel:+16477234567' },
-                { icon: <Mail size={22} />, title: 'Email', value: 'info@a1suites.ca', link: 'mailto:info@a1suites.ca' },
+                { icon: <Phone size={22} />, title: 'Phone', value: '+1 4165661102', link: 'tel:+16477234567' },
+                { icon: <Mail size={22} />, title: 'Email', value: 'nadeemrealty@gmail.com.', link: 'mailto:nadeemrealty@gmail.com.' },
                 { icon: <MapPin size={22} />, title: 'Service Area', value: 'Greater Toronto Area, Ontario, Canada', link: null },
                 { icon: <Clock size={22} />, title: 'Hours', value: 'Mon–Sun: 8:00 AM – 9:00 PM EST', link: null }
               ].map((item, i) => (
