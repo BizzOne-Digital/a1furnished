@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// ✅ Smart baseURL — uses env variable, falls back to production
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://a1furnished-api.vercel.app/api';
+
 const API = axios.create({
-baseURL: 'https://a1furnished-api.vercel.app/api',
+  baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' }
 });
 
@@ -14,7 +17,7 @@ API.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle 401 globallyhhh
+// Handle 401 globally
 API.interceptors.response.use(
   (response) => response,
   (error) => {
