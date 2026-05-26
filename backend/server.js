@@ -12,6 +12,8 @@ const app = express();
 // ===========================================
 const allowedOrigins = [
   'https://a1furnished.vercel.app',
+  'https://a1furnished.ca',
+  'https://www.a1furnished.ca',
   'https://a1suites.ca',
   'https://www.a1suites.ca',
   process.env.CLIENT_URL
@@ -21,7 +23,8 @@ const allowedPatterns = [
   /^http:\/\/localhost(:\d+)?$/,
   /^http:\/\/127\.0\.0\.1(:\d+)?$/,
   /^https:\/\/.*\.vercel\.app$/,
-  /^https:\/\/.*\.a1suites\.ca$/
+  /^https:\/\/.*\.a1suites\.ca$/,
+  /^https:\/\/.*\.a1furnished\.ca$/
 ];
 
 const corsOptions = {
