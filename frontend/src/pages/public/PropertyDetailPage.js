@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Bed, Bath, Users, Star, Wifi, Car, ChevronLeft, ChevronRight, Heart, Share2, Phone, Mail } from 'lucide-react';
+import {
+  MapPin,
+  Bed,
+  Bath,
+  Users,
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  Phone,
+  Mail
+} from 'lucide-react';
 import { propertyAPI } from '../../utils/api';
 
 const PropertyDetailPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
+
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImg, setCurrentImg] = useState(0);
@@ -21,144 +32,305 @@ const PropertyDetailPage = () => {
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (loading) return (
-    <div className="loading-screen" style={{ minHeight: '80vh' }}>
-      <div className="spinner"></div>
-      <p>Loading property...</p>
-    </div>
-  );
+  if (loading) {
+    return (
+      <div
+        className="loading-screen"
+        style={{
+          minHeight: '80vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column'
+        }}
+      >
+        <div className="spinner"></div>
+        <p>Loading property...</p>
+      </div>
+    );
+  }
 
   if (!property) return null;
 
-  const primaryImage = property.images?.find(img => img.isPrimary) || property.images?.[0];
-  const allImages = property.images?.length > 0 ? property.images : [{ url: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200' }];
+  const allImages =
+    property.images?.length > 0
+      ? property.images
+      : [
+          {
+            url: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200'
+          }
+        ];
 
   const amenityIcons = {
-    wifi: '📶', wind: '❄️', thermometer: '🌡️', utensils: '🍳',
-    shirt: '👕', tv: '📺', car: '🚗', dumbbell: '💪',
-    bell: '🔔', tree: '🌳', flame: '🔥', zap: '⚡', monitor: '🖥️', home: '🏠', heart: '🐾'
+    wifi: '📶',
+    wind: '❄️',
+    thermometer: '🌡️',
+    utensils: '🍳',
+    shirt: '👕',
+    tv: '📺',
+    car: '🚗',
+    dumbbell: '💪',
+    bell: '🔔',
+    tree: '🌳',
+    flame: '🔥',
+    zap: '⚡',
+    monitor: '🖥️',
+    home: '🏠',
+    heart: '🐾'
   };
 
   return (
     <div>
-      {/* Image Gallery */}
-      <div style={{ position: 'relative', height: 'clamp(300px, 50vh, 550px)', background: 'var(--navy-dark)', overflow: 'hidden' }}>
+      {/* HERO IMAGE */}
+      <div
+        style={{
+          position: 'relative',
+          height: 'clamp(260px, 45vh, 550px)',
+          overflow: 'hidden',
+          background: 'var(--navy-dark)'
+        }}
+      >
         <img
           src={allImages[currentImg]?.url}
           alt={property.title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.3s' }}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover'
+          }}
         />
 
-        {/* Gallery Controls */}
         {allImages.length > 1 && (
           <>
-            <button onClick={() => setCurrentImg(i => i === 0 ? allImages.length - 1 : i - 1)}
-              style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', width: '44px', height: '44px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
+            <button
+              onClick={() =>
+                setCurrentImg(i =>
+                  i === 0 ? allImages.length - 1 : i - 1
+                )
+              }
+              style={navBtnStyle('left')}
+            >
               <ChevronLeft size={20} />
             </button>
-            <button onClick={() => setCurrentImg(i => i === allImages.length - 1 ? 0 : i + 1)}
-              style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.9)', border: 'none', width: '44px', height: '44px', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>
+
+            <button
+              onClick={() =>
+                setCurrentImg(i =>
+                  i === allImages.length - 1 ? 0 : i + 1
+                )
+              }
+              style={navBtnStyle('right')}
+            >
               <ChevronRight size={20} />
             </button>
 
-            {/* Thumbnail dots */}
-            <div style={{ position: 'absolute', bottom: '16px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '6px' }}>
+            {/* dots */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 14,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                display: 'flex',
+                gap: 6
+              }}
+            >
               {allImages.map((_, i) => (
-                <button key={i} onClick={() => setCurrentImg(i)} style={{ width: i === currentImg ? '24px' : '8px', height: '8px', borderRadius: '4px', background: i === currentImg ? 'white' : 'rgba(255,255,255,0.5)', border: 'none', cursor: 'pointer', transition: 'all 0.2s', padding: 0 }} />
+                <button
+                  key={i}
+                  onClick={() => setCurrentImg(i)}
+                  style={{
+                    width: i === currentImg ? 24 : 8,
+                    height: 8,
+                    borderRadius: 999,
+                    border: 'none',
+                    background:
+                      i === currentImg
+                        ? '#fff'
+                        : 'rgba(255,255,255,0.5)',
+                    cursor: 'pointer'
+                  }}
+                />
               ))}
             </div>
 
-            {/* Image counter */}
-            <div style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(0,0,0,0.6)', color: 'white', padding: '6px 14px', borderRadius: '999px', fontSize: '13px', fontFamily: 'Montserrat', fontWeight: 600 }}>
+            {/* counter */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 16,
+                right: 16,
+                background: 'rgba(0,0,0,0.6)',
+                color: '#fff',
+                padding: '6px 12px',
+                borderRadius: 999,
+                fontSize: 13
+              }}
+            >
               {currentImg + 1} / {allImages.length}
             </div>
           </>
         )}
-
-        {/* Thumbnail strip */}
-        {allImages.length > 1 && (
-          <div style={{ position: 'absolute', bottom: '40px', left: '16px', display: 'flex', gap: '8px', overflowX: 'auto', maxWidth: 'calc(100% - 32px)' }}>
-            {allImages.slice(0, 6).map((img, i) => (
-              <img key={i} src={img.url} alt="" onClick={() => setCurrentImg(i)}
-                style={{ width: '70px', height: '50px', objectFit: 'cover', borderRadius: '6px', cursor: 'pointer', border: i === currentImg ? '2px solid white' : '2px solid transparent', flexShrink: 0 }}
-              />
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* Content */}
-      <div className="container" style={{ padding: '40px 24px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '40px', alignItems: 'start' }}>
-
-          {/* Left Column */}
+      {/* MAIN CONTENT */}
+      <div
+        className="container"
+        style={{
+          padding: '32px 20px 100px'
+        }}
+      >
+        <div className="property-layout">
+          {/* LEFT SIDE */}
           <div>
-            {/* Title & Info */}
-            <div style={{ marginBottom: '32px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-                <span className={`badge ${property.status === 'available' ? 'badge-success' : 'badge-danger'}`}>
-                  {property.status === 'available' ? '✓ Available' : property.status}
+            {/* TITLE */}
+            <div style={{ marginBottom: 30 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: 10,
+                  flexWrap: 'wrap',
+                  marginBottom: 14
+                }}
+              >
+                <span
+                  className={`badge ${
+                    property.status === 'available'
+                      ? 'badge-success'
+                      : 'badge-danger'
+                  }`}
+                >
+                  {property.status === 'available'
+                    ? '✓ Available'
+                    : property.status}
                 </span>
-                <span className="badge badge-gray">{property.propertyType}</span>
+
+                <span className="badge badge-gray">
+                  {property.propertyType}
+                </span>
               </div>
 
-              <h1 style={{ fontFamily: 'Montserrat', fontSize: 'clamp(22px, 4vw, 34px)', marginBottom: '12px', color: 'var(--navy)' }}>
+              <h1
+                style={{
+                  fontSize: 'clamp(26px, 5vw, 38px)',
+                  marginBottom: 14,
+                  lineHeight: 1.2,
+                  color: 'var(--navy)'
+                }}
+              >
                 {property.title}
               </h1>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--gray)', marginBottom: '16px' }}>
-                <MapPin size={16} />
-                <span>{property.address?.street && `${property.address.street}, `}{property.address?.city}, {property.address?.province}, Canada</span>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 8,
+                  color: 'var(--gray)',
+                  marginBottom: 20
+                }}
+              >
+                <MapPin
+                  size={18}
+                  style={{ marginTop: 2, flexShrink: 0 }}
+                />
+
+                <span style={{ lineHeight: 1.6 }}>
+                  {property.address?.street &&
+                    `${property.address.street}, `}
+                  {property.address?.city},{' '}
+                  {property.address?.province}, Canada
+                </span>
               </div>
 
-              <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              {/* FEATURES */}
+              <div className="property-features">
                 {[
-                  { icon: <Bed size={18} />, label: `${property.bedrooms} ${property.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}` },
-                  { icon: <Bath size={18} />, label: `${property.bathrooms} ${property.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}` },
-                  { icon: <Users size={18} />, label: `Up to ${property.maxGuests} Guests` },
-                  ...(property.squareFeet ? [{ icon: '📐', label: `${property.squareFeet} sqft` }] : [])
+                  {
+                    icon: <Bed size={18} />,
+                    label: `${property.bedrooms} Bedrooms`
+                  },
+                  {
+                    icon: <Bath size={18} />,
+                    label: `${property.bathrooms} Bathrooms`
+                  },
+                  {
+                    icon: <Users size={18} />,
+                    label: `Up to ${property.maxGuests} Guests`
+                  }
                 ].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--navy)', fontFamily: 'Montserrat', fontWeight: 600, fontSize: '15px' }}>
-                    <span style={{ color: 'var(--red)' }}>{item.icon}</span>
+                  <div key={i} className="feature-item">
+                    <span style={{ color: 'var(--red)' }}>
+                      {item.icon}
+                    </span>
                     {item.label}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Rating */}
+            {/* RATING */}
             {property.averageRating > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '16px', background: '#fffdf0', borderRadius: '10px', marginBottom: '32px', border: '1px solid #f5e89a' }}>
-                <div style={{ display: 'flex', gap: '2px' }}>
-                  {[1,2,3,4,5].map(s => (
-                    <Star key={s} size={18} fill={s <= Math.round(property.averageRating) ? '#f5a623' : 'transparent'} color="#f5a623" />
+              <div className="rating-box">
+                <div style={{ display: 'flex', gap: 2 }}>
+                  {[1, 2, 3, 4, 5].map(s => (
+                    <Star
+                      key={s}
+                      size={18}
+                      fill={
+                        s <= Math.round(property.averageRating)
+                          ? '#f5a623'
+                          : 'transparent'
+                      }
+                      color="#f5a623"
+                    />
                   ))}
                 </div>
-                <span style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '18px' }}>{property.averageRating}</span>
-                <span style={{ color: 'var(--gray)' }}>({property.totalReviews} verified reviews)</span>
+
+                <span
+                  style={{
+                    fontWeight: 700,
+                    fontSize: 18
+                  }}
+                >
+                  {property.averageRating}
+                </span>
+
+                <span style={{ color: 'var(--gray)' }}>
+                  ({property.totalReviews} reviews)
+                </span>
               </div>
             )}
 
-            {/* Description */}
-            <div style={{ marginBottom: '36px' }}>
-              <h2 style={{ fontFamily: 'Montserrat', fontSize: '20px', marginBottom: '16px' }}>About This Property</h2>
-              <div style={{ color: 'var(--gray-dark)', lineHeight: 1.8, fontSize: '16px', whiteSpace: 'pre-line' }}>
+            {/* DESCRIPTION */}
+            <div style={{ marginBottom: 36 }}>
+              <h2 className="section-title">
+                About This Property
+              </h2>
+
+              <div
+                style={{
+                  lineHeight: 1.9,
+                  color: 'var(--gray-dark)',
+                  whiteSpace: 'pre-line'
+                }}
+              >
                 {property.description}
               </div>
             </div>
 
-            {/* Amenities */}
+            {/* AMENITIES */}
             {property.amenities?.length > 0 && (
-              <div style={{ marginBottom: '36px' }}>
-                <h2 style={{ fontFamily: 'Montserrat', fontSize: '20px', marginBottom: '20px' }}>Amenities</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
+              <div style={{ marginBottom: 36 }}>
+                <h2 className="section-title">Amenities</h2>
+
+                <div className="amenities-grid">
                   {property.amenities.map((amenity, i) => (
-                    <div key={i} style={{
-                      display: 'flex', alignItems: 'center', gap: '10px',
-                      padding: '12px 16px', background: 'var(--off-white)',
-                      borderRadius: '8px', fontSize: '14px', fontWeight: 500, color: 'var(--navy)'
-                    }}>
-                      <span style={{ fontSize: '18px' }}>{amenityIcons[amenity.icon] || '✓'}</span>
+                    <div key={i} className="amenity-card">
+                      <span style={{ fontSize: 18 }}>
+                        {amenityIcons[amenity.icon] || '✓'}
+                      </span>
+
                       {amenity.name}
                     </div>
                   ))}
@@ -166,25 +338,77 @@ const PropertyDetailPage = () => {
               </div>
             )}
 
-            {/* Reviews */}
+            {/* REVIEWS */}
             {property.reviews?.length > 0 && (
               <div>
-                <h2 style={{ fontFamily: 'Montserrat', fontSize: '20px', marginBottom: '20px' }}>Guest Reviews</h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h2 className="section-title">
+                  Guest Reviews
+                </h2>
+
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 18
+                  }}
+                >
                   {property.reviews.slice(0, 5).map((review, i) => (
-                    <div key={i} style={{ padding: '20px', background: 'var(--off-white)', borderRadius: '12px', borderLeft: '3px solid var(--red)' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '10px' }}>
+                    <div key={i} className="review-card">
+                      <div className="review-top">
                         <div>
-                          <div style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '15px' }}>{review.name}</div>
-                          <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
-                            {[1,2,3,4,5].map(s => <Star key={s} size={13} fill={s <= review.rating ? '#f5a623' : 'transparent'} color="#f5a623" />)}
+                          <div
+                            style={{
+                              fontWeight: 700,
+                              marginBottom: 4
+                            }}
+                          >
+                            {review.name}
+                          </div>
+
+                          <div
+                            style={{
+                              display: 'flex',
+                              gap: 2
+                            }}
+                          >
+                            {[1, 2, 3, 4, 5].map(s => (
+                              <Star
+                                key={s}
+                                size={13}
+                                fill={
+                                  s <= review.rating
+                                    ? '#f5a623'
+                                    : 'transparent'
+                                }
+                                color="#f5a623"
+                              />
+                            ))}
                           </div>
                         </div>
-                        <span style={{ color: 'var(--gray)', fontSize: '13px' }}>
-                          {new Date(review.date).toLocaleDateString('en-CA', { month: 'short', year: 'numeric' })}
+
+                        <span
+                          style={{
+                            fontSize: 13,
+                            color: 'var(--gray)'
+                          }}
+                        >
+                          {new Date(
+                            review.date
+                          ).toLocaleDateString('en-CA', {
+                            month: 'short',
+                            year: 'numeric'
+                          })}
                         </span>
                       </div>
-                      <p style={{ color: 'var(--gray-dark)', fontSize: '15px', lineHeight: 1.6 }}>{review.comment}</p>
+
+                      <p
+                        style={{
+                          lineHeight: 1.7,
+                          color: 'var(--gray-dark)'
+                        }}
+                      >
+                        {review.comment}
+                      </p>
                     </div>
                   ))}
                 </div>
@@ -192,65 +416,105 @@ const PropertyDetailPage = () => {
             )}
           </div>
 
-          {/* Right Column - Booking Card */}
-          <div style={{ position: 'sticky', top: '90px' }}>
-            <div style={{ background: 'white', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)', overflow: 'hidden', border: '1px solid var(--border)' }}>
-              {/* Pricing Header */}
-              <div style={{ background: 'var(--navy)', padding: '24px', textAlign: 'center' }}>
-                <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', fontFamily: 'Montserrat', marginBottom: '4px' }}>STARTING FROM</div>
-                <div style={{ color: 'white', fontFamily: 'Montserrat', fontWeight: 900, fontSize: '38px', lineHeight: 1 }}>
-                  ${property.pricing?.perMonth?.toLocaleString()}
+          {/* RIGHT SIDEBAR */}
+          <div className="booking-wrapper">
+            <div className="booking-card">
+              <div className="booking-header">
+                <div className="booking-small">
+                  STARTING FROM
                 </div>
-                <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px', marginTop: '4px' }}>CAD / month</div>
-                {property.pricing?.perNight && (
-                  <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginTop: '6px' }}>
-                    ${property.pricing.perNight} / night · ${property.pricing.perWeek?.toLocaleString()} / week
-                  </div>
-                )}
+
+                <div className="booking-price">
+                  $
+                  {property.pricing?.perMonth?.toLocaleString()}
+                </div>
+
+                <div className="booking-small">
+                  CAD / month
+                </div>
               </div>
 
-              <div style={{ padding: '24px' }}>
-                {/* Pricing breakdown */}
-                <div style={{ marginBottom: '20px' }}>
-                  {[
-                    { label: 'Minimum Stay', value: `${property.minimumStay || 30} days` },
-                    { label: 'Security Deposit', value: property.pricing?.securityDeposit ? `$${property.pricing.securityDeposit.toLocaleString()} CAD` : 'Contact us' },
-                    { label: 'Cleaning Fee', value: property.pricing?.cleaningFee ? `$${property.pricing.cleaningFee} CAD` : 'Included' },
-                    { label: 'Utilities', value: 'Included' }
-                  ].map((item, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '14px' }}>
-                      <span style={{ color: 'var(--gray)' }}>{item.label}</span>
-                      <span style={{ fontWeight: 600, color: 'var(--navy)', fontFamily: 'Montserrat' }}>{item.value}</span>
-                    </div>
-                  ))}
-                </div>
+              <div style={{ padding: 24 }}>
+                {[
+                  {
+                    label: 'Minimum Stay',
+                    value: `${property.minimumStay || 30} days`
+                  },
+                  {
+                    label: 'Utilities',
+                    value: 'Included'
+                  },
+                  {
+                    label: 'Cleaning Fee',
+                    value: property.pricing?.cleaningFee
+                      ? `$${property.pricing.cleaningFee}`
+                      : 'Included'
+                  }
+                ].map((item, i) => (
+                  <div key={i} className="price-row">
+                    <span>{item.label}</span>
+                    <strong>{item.value}</strong>
+                  </div>
+                ))}
 
-                {property.status === 'available' ? (
-                  <button
-                    className="btn btn-primary"
-                    style={{ width: '100%', justifyContent: 'center', padding: '16px', fontSize: '16px', borderRadius: '10px', marginBottom: '12px' }}
-                    onClick={() => navigate(`/book/${property.slug}`)}
-                  >
-                    Book This Property
-                  </button>
-                ) : (
-                  <button className="btn" style={{ width: '100%', justifyContent: 'center', padding: '16px', background: 'var(--gray-light)', color: 'var(--gray)', borderRadius: '10px', marginBottom: '12px', cursor: 'not-allowed', fontFamily: 'Montserrat', fontWeight: 600 }} disabled>
-                    Currently Unavailable
-                  </button>
-                )}
+                <button
+                  className="btn btn-primary"
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    marginTop: 18,
+                    padding: 16,
+                    borderRadius: 10
+                  }}
+                  onClick={() =>
+                    navigate(`/book/${property.slug}`)
+                  }
+                >
+                  Book This Property
+                </button>
 
                 <button
                   className="btn btn-secondary"
-                  style={{ width: '100%', justifyContent: 'center', padding: '14px', borderRadius: '10px' }}
+                  style={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    marginTop: 12,
+                    padding: 14,
+                    borderRadius: 10
+                  }}
                   onClick={() => setShowInquiryForm(true)}
                 >
-                  <Mail size={16} /> Send Inquiry
+                  <Mail size={16} />
+                  Send Inquiry
                 </button>
 
-                <div style={{ marginTop: '20px', padding: '14px', background: 'var(--off-white)', borderRadius: '8px', textAlign: 'center' }}>
-                  <div style={{ fontSize: '13px', color: 'var(--gray)', marginBottom: '8px' }}>Have questions? Call us</div>
-                  <a href="tel:+16477234567" style={{ fontFamily: 'Montserrat', fontWeight: 700, color: 'var(--navy)', fontSize: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                    <Phone size={16} style={{ color: 'var(--red)' }} />
+                <div className="call-box">
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: 'var(--gray)',
+                      marginBottom: 8
+                    }}
+                  >
+                    Have questions? Call us
+                  </div>
+
+                  <a
+                    href="tel:+16477234567"
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      gap: 8,
+                      color: 'var(--navy)',
+                      fontWeight: 700,
+                      textDecoration: 'none'
+                    }}
+                  >
+                    <Phone
+                      size={16}
+                      style={{ color: 'var(--red)' }}
+                    />
                     +1 (647) 723-4567
                   </a>
                 </div>
@@ -260,18 +524,231 @@ const PropertyDetailPage = () => {
         </div>
       </div>
 
-      {/* Mobile Sticky Footer */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'white', padding: '16px 24px', boxShadow: '0 -4px 20px rgba(0,0,0,0.1)', display: 'none', zIndex: 50 }} className="mobile-book-bar">
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: 'Montserrat', fontWeight: 900, fontSize: '20px', color: 'var(--navy)' }}>${property.pricing?.perMonth?.toLocaleString()}<span style={{ fontWeight: 400, fontSize: '13px', color: 'var(--gray)' }}>/mo</span></div>
+      {/* MOBILE BAR */}
+      <div className="mobile-book-bar">
+        <div style={{ flex: 1 }}>
+          <div
+            style={{
+              fontWeight: 900,
+              fontSize: 20,
+              color: 'var(--navy)'
+            }}
+          >
+            $
+            {property.pricing?.perMonth?.toLocaleString()}
+            <span
+              style={{
+                fontWeight: 400,
+                fontSize: 13,
+                color: 'var(--gray)'
+              }}
+            >
+              /mo
+            </span>
           </div>
-          <button className="btn btn-primary" onClick={() => navigate(`/book/${property.slug}`)}>Book Now</button>
         </div>
+
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate(`/book/${property.slug}`)}
+        >
+          Book Now
+        </button>
       </div>
-      <style>{`@media (max-width: 768px) { .mobile-book-bar { display: block !important; } }`}</style>
+
+      {/* RESPONSIVE CSS */}
+      <style>{`
+        .property-layout{
+          display:grid;
+          grid-template-columns:1fr 380px;
+          gap:40px;
+          align-items:start;
+        }
+
+        .property-features{
+          display:flex;
+          flex-wrap:wrap;
+          gap:18px;
+        }
+
+        .feature-item{
+          display:flex;
+          align-items:center;
+          gap:8px;
+          font-weight:600;
+          color:var(--navy);
+        }
+
+        .rating-box{
+          display:flex;
+          align-items:center;
+          gap:12px;
+          padding:16px;
+          background:#fffdf0;
+          border-radius:12px;
+          margin-bottom:32px;
+          border:1px solid #f5e89a;
+          flex-wrap:wrap;
+        }
+
+        .section-title{
+          font-size:22px;
+          margin-bottom:18px;
+          color:var(--navy);
+        }
+
+        .amenities-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+          gap:14px;
+        }
+
+        .amenity-card{
+          display:flex;
+          align-items:center;
+          gap:10px;
+          padding:14px;
+          background:var(--off-white);
+          border-radius:10px;
+          font-size:14px;
+          font-weight:500;
+        }
+
+        .review-card{
+          padding:20px;
+          background:var(--off-white);
+          border-radius:14px;
+          border-left:4px solid var(--red);
+        }
+
+        .review-top{
+          display:flex;
+          justify-content:space-between;
+          gap:12px;
+          margin-bottom:12px;
+        }
+
+        .booking-wrapper{
+          position:sticky;
+          top:90px;
+        }
+
+        .booking-card{
+          background:#fff;
+          border-radius:20px;
+          overflow:hidden;
+          border:1px solid var(--border);
+          box-shadow:var(--shadow-lg);
+        }
+
+        .booking-header{
+          background:var(--navy);
+          padding:26px;
+          text-align:center;
+        }
+
+        .booking-small{
+          color:rgba(255,255,255,0.7);
+          font-size:13px;
+        }
+
+        .booking-price{
+          font-size:42px;
+          color:#fff;
+          font-weight:900;
+          line-height:1.1;
+          margin:6px 0;
+        }
+
+        .price-row{
+          display:flex;
+          justify-content:space-between;
+          gap:14px;
+          padding:12px 0;
+          border-bottom:1px solid var(--border);
+          font-size:14px;
+        }
+
+        .call-box{
+          margin-top:20px;
+          padding:16px;
+          border-radius:10px;
+          background:var(--off-white);
+          text-align:center;
+        }
+
+        .mobile-book-bar{
+          display:none;
+        }
+
+        @media(max-width:992px){
+          .property-layout{
+            grid-template-columns:1fr;
+          }
+
+          .booking-wrapper{
+            position:static;
+          }
+        }
+
+        @media(max-width:768px){
+
+          .container{
+            padding-left:16px !important;
+            padding-right:16px !important;
+          }
+
+          .property-features{
+            flex-direction:column;
+            gap:12px;
+          }
+
+          .amenities-grid{
+            grid-template-columns:1fr;
+          }
+
+          .review-top{
+            flex-direction:column;
+            align-items:flex-start;
+          }
+
+          .booking-price{
+            font-size:34px;
+          }
+
+          .mobile-book-bar{
+            position:fixed;
+            bottom:0;
+            left:0;
+            right:0;
+            background:#fff;
+            padding:14px 16px;
+            display:flex;
+            align-items:center;
+            gap:12px;
+            box-shadow:0 -4px 20px rgba(0,0,0,0.1);
+            z-index:999;
+          }
+        }
+      `}</style>
     </div>
   );
 };
+
+const navBtnStyle = side => ({
+  position: 'absolute',
+  [side]: '16px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  width: '42px',
+  height: '42px',
+  borderRadius: '50%',
+  border: 'none',
+  background: 'rgba(255,255,255,0.9)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer'
+});
 
 export default PropertyDetailPage;
