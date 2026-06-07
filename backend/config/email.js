@@ -104,7 +104,7 @@ const sendInquiryConfirmationToCustomer = async (inquiry) => {
             <p style="margin: 0 0 4px; font-weight: bold;">Your Message:</p>
             <p style="margin: 0; color: #555;">${inquiry.message}</p>
           </div>
-          <p>If you need immediate assistance, please call us at <strong>(647) 555-0100</strong>.</p>
+          <p>If you need immediate assistance, please call us at <strong>(416) 566-1102</strong>.</p>
           <p style="color: #555;">Best regards,<br><strong>A1 Furnished Homes Team</strong></p>
         </div>
       </div>
