@@ -3,6 +3,10 @@ const router = express.Router();
 const Booking = require('../models/Booking');
 const Property = require('../models/Property');
 const { protect, adminOnly } = require('../middleware/auth');
+const {
+  sendBookingNotificationToAdmin,
+  sendBookingConfirmationToCustomer,
+} = require('../config/email');
 
 // @route POST /api/bookings - Create booking (public)
 router.post('/', async (req, res) => {
@@ -46,6 +50,18 @@ router.post('/', async (req, res) => {
 
     // Increment booking count on property
     await Property.findByIdAndUpdate(req.body.property, { $inc: { bookingCount: 1 } });
+
+    // ✅ Send notification email to admin + confirmation to customer (non-blocking)
+    Promise.allSettled([
+      sendBookingNotificationToAdmin(booking, property),
+      sendBookingConfirmationToCustomer(booking, property),
+    ]).then((results) => {
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          console.error(`❌ Booking email ${i} failed:`, r.reason);
+        }
+      });
+    });
 
     res.status(201).json({ success: true, booking });
   } catch (error) {

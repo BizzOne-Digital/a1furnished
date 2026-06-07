@@ -2,11 +2,29 @@ const express = require('express');
 const router = express.Router();
 const Inquiry = require('../models/Inquiry');
 const { protect, adminOnly } = require('../middleware/auth');
+const {
+  sendInquiryNotificationToAdmin,
+  sendInquiryConfirmationToCustomer,
+  sendAdminReplyToCustomer,
+} = require('../config/email');
 
 // @route POST /api/inquiries - Submit inquiry (public)
 router.post('/', async (req, res) => {
   try {
     const inquiry = await Inquiry.create(req.body);
+
+    // ✅ Send notification email to admin + confirmation to customer (non-blocking)
+    Promise.allSettled([
+      sendInquiryNotificationToAdmin(inquiry),
+      sendInquiryConfirmationToCustomer(inquiry),
+    ]).then((results) => {
+      results.forEach((r, i) => {
+        if (r.status === 'rejected') {
+          console.error(`❌ Email ${i} failed:`, r.reason);
+        }
+      });
+    });
+
     res.status(201).json({ success: true, inquiry, message: 'Your inquiry has been submitted. We will contact you shortly!' });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -42,6 +60,14 @@ router.put('/:id', protect, adminOnly, async (req, res) => {
       req.body.repliedAt = new Date();
     }
     const inquiry = await Inquiry.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+    // ✅ If admin replied, send reply email to customer (non-blocking)
+    if (req.body.adminReply && inquiry) {
+      sendAdminReplyToCustomer(inquiry).catch((err) =>
+        console.error('❌ Reply email failed:', err.message)
+      );
+    }
+
     res.json({ success: true, inquiry });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
