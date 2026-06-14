@@ -118,7 +118,7 @@ const Footer = () => {
               </a>
               <a href="tel:+13472982876" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Phone size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                USA: +1 (347) 298-2876
+                USA,New York: +1 (347) 298-2876
               </a>
               <a href="mailto:a1furnished@gmail.com" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Mail size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
