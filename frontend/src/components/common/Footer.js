@@ -21,8 +21,13 @@ const Footer = () => {
               Premium short-term furnished homes across the Greater Toronto Area. Your home away from home in Canada.
             </p>
             <div style={{ display: 'flex', gap: '12px' }}>
-              {[Facebook, Instagram, Linkedin, Twitter].map((Icon, i) => (
-                <a key={i} href="#" style={{
+              {[
+                { Icon: Facebook, href: 'https://www.facebook.com/a1furnishedhomes' },
+                { Icon: Instagram, href: 'https://www.instagram.com/a1furnishedhomes' },
+                { Icon: Linkedin, href: 'https://www.linkedin.com/company/a1furnishedhomes' },
+                { Icon: Twitter, href: 'https://www.twitter.com/a1furnishedhomes' },
+              ].map(({ Icon, href }, i) => (
+                <a key={i} href={href} target="_blank" rel="noreferrer" style={{
                   width: '38px', height: '38px', borderRadius: '50%',
                   background: 'rgba(255,255,255,0.08)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -107,13 +112,17 @@ const Footer = () => {
                   Greater Toronto Area<br />Ontario, Canada
                 </span>
               </div>
-              <a href="tel:+4165661102" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
+              <a href="tel:+14165661102" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Phone size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                +1 4165661102
+                Canada: +1 (416) 566-1102
               </a>
-              <a href="mailto:nadeemrealty@gmail.com." style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
+              <a href="tel:+13472982876" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
+                <Phone size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
+                USA: +1 (347) 298-2876
+              </a>
+              <a href="mailto:a1furnished@gmail.com" style={{ display: 'flex', gap: '12px', fontSize: '14px', opacity: 0.8, alignItems: 'center' }}>
                 <Mail size={18} style={{ color: 'var(--red)', flexShrink: 0 }} />
-                nadeemrealty@gmail.com.
+                a1furnished@gmail.com
               </a>
             </div>
           </div>
@@ -127,11 +136,15 @@ const Footer = () => {
             © {new Date().getFullYear()} A1 Furnished Homes Canada. All rights reserved.
           </p>
           <div style={{ display: 'flex', gap: '20px' }}>
-            {['Privacy Policy', 'Terms of Service', 'Cancellation Policy'].map(item => (
-              <a key={item} href="#" style={{ fontSize: '13px', opacity: 0.6, transition: 'opacity 0.2s' }}
+            {[
+              { label: 'Privacy Policy', to: '/privacy-policy' },
+              { label: 'Terms of Service', to: '/terms-of-service' },
+              { label: 'Cancellation Policy', to: '/cancellation-policy' },
+            ].map(item => (
+              <Link key={item.label} to={item.to} style={{ fontSize: '13px', opacity: 0.6, transition: 'opacity 0.2s' }}
                 onMouseEnter={e => e.target.style.opacity = 1}
                 onMouseLeave={e => e.target.style.opacity = 0.6}
-              >{item}</a>
+              >{item.label}</Link>
             ))}
           </div>
         </div>

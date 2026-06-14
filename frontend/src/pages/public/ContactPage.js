@@ -48,22 +48,24 @@ const ContactPage = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '40px' }}>
               {[
-                { icon: <Phone size={22} />, title: 'Phone', value: '+1 4165661102', link: 'tel:+14165661102' },
-                { icon: <Mail size={22} />, title: 'Email', value: 'a1furnished@gmail.com.', link: 'mailto:a1furnished@gmail.com.' },
-                { icon: <MapPin size={22} />, title: 'Service Area', value: 'Greater Toronto Area, Ontario, Canada', link: null },
-                { icon: <Clock size={22} />, title: 'Hours', value: 'Mon–Sun: 8:00 AM – 9:00 PM EST', link: null }
+                { icon: <Phone size={22} />, title: 'Phone', values: [{ label: 'Canada: +1 (416) 566-1102', link: 'tel:+14165661102' }, { label: 'USA,New York: +1 (347) 298-2876', link: 'tel:+13472982876' },] },
+                { icon: <Mail size={22} />, title: 'Email', values: [{ label: 'a1furnished@gmail.com', link: 'mailto:a1furnished@gmail.com' }] },
+                { icon: <MapPin size={22} />, title: 'Service Area', values: [{ label: 'Greater Toronto Area, Ontario, Canada', link: null }] },
+                { icon: <Clock size={22} />, title: 'Hours', values: [{ label: 'Mon–Sun: 8:00 AM – 9:00 PM EST', link: null }] }
               ].map((item, i) => (
                 <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                   <div style={{ width: '48px', height: '48px', background: 'var(--off-white)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--red)', flexShrink: 0 }}>
                     {item.icon}
                   </div>
                   <div>
-                    <div style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '14px', marginBottom: '2px', color: 'var(--navy)' }}>{item.title}</div>
-                    {item.link ? (
-                      <a href={item.link} style={{ color: 'var(--gray-dark)', fontSize: '15px' }}>{item.value}</a>
-                    ) : (
-                      <span style={{ color: 'var(--gray-dark)', fontSize: '15px' }}>{item.value}</span>
-                    )}
+                    <div style={{ fontFamily: 'Montserrat', fontWeight: 700, fontSize: '14px', marginBottom: '4px', color: 'var(--navy)' }}>{item.title}</div>
+                    {item.values.map((v, j) => (
+                      v.link ? (
+                        <a key={j} href={v.link} style={{ color: 'var(--gray-dark)', fontSize: '15px', display: 'block', lineHeight: 1.8 }}>{v.label}</a>
+                      ) : (
+                        <span key={j} style={{ color: 'var(--gray-dark)', fontSize: '15px', display: 'block', lineHeight: 1.8 }}>{v.label}</span>
+                      )
+                    ))}
                   </div>
                 </div>
               ))}
@@ -118,6 +120,7 @@ const ContactPage = () => {
                       <label className="form-label">Stay Duration</label>
                       <select className="form-control" value={form.stayDuration} onChange={e => setForm(p => ({ ...p, stayDuration: e.target.value }))}>
                         <option value="">Select...</option>
+                        <option value="1 to 7 days">1 to 7 days</option>
                         <option value="1-2 weeks">1-2 weeks</option>
                         <option value="1 month">1 month</option>
                         <option value="2-3 months">2-3 months</option>
